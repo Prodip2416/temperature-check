@@ -55,7 +55,7 @@
         }
 
         function displayResults(weather) {
-           // console.log(weather);
+            console.log(weather);
             const location = document.getElementById('location');
             location.innerText = `${weather.name}, ${weather.sys.country}`;
 
@@ -68,7 +68,7 @@
             const tempIcon = `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
 
             const imgSrc = document.getElementById('imgSrc');
-            imgSrc.setAttribute('src', tempIcon);
+            imgSrc.setAttribute('src', imgSrc);
         }
     </script>
 </body>
