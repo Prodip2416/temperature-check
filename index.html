@@ -20,23 +20,57 @@
 
 <body>
     <div class="container">
-        
+
         <form class="col-md-6 m-auto py-5">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <input id="searchValue" type="text" class="form-control" placeholder="Enter a location for Weather ...">
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-danger">Search</button>
+                    <button id="search" type="button" class="btn btn-danger">Search</button>
                 </div>
             </div>
         </form>
         <div class="weather-status text-white text-center">
-            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
-            <h1>Dhaka</h1>
-            <h3><span>38.06</span>&deg;C</h3>
-            <h1 class="lead">Clouds</h1>
+            <img id="imgSrc" src="" alt="">
+            <h1 id="location"></h1>
+            <h3><span id="temperature"></span>&deg;C</h3>
+            <h1 id="currentWeather"></h1>
         </div>
     </div>
+    <script>
+        const api = {
+            key: "19c5c13b42207582272b717ce991a660",
+            url: "https://api.openweathermap.org/data/2.5/"
+        }
 
+        const searchValue = document.getElementById('searchValue');
+        const searchBox = document.getElementById('search');
+        searchBox.addEventListener('click', getResults);
+
+        function getResults() {
+            fetch(`${api.url}weather?q=${searchValue.value}&units=metric&APPID=${api.key}`)
+                .then(weather => {
+                    return weather.json();
+                })
+                .then(displayResults);
+        }
+
+        function displayResults(weather) {
+           // console.log(weather);
+            const location = document.getElementById('location');
+            location.innerText = `${weather.name}, ${weather.sys.country}`;
+
+            const temperature = document.getElementById('temperature');
+            temperature.innerHTML = `${Math.round(weather.main.temp)}`;
+
+            const currentWeather = document.getElementById('currentWeather');
+            currentWeather.innerText = weather.weather[0].main;
+
+            const tempIcon = `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
+
+            const imgSrc = document.getElementById('imgSrc');
+            imgSrc.setAttribute('src', tempIcon);
+        }
+    </script>
 </body>
 
 </html>
